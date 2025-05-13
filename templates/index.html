@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Powered Movie Review Sentiment Analyzer</title>
+    
+    <!-- Bootstrap CSS (Replit-themed) -->
+    <link rel="stylesheet" href="https://cdn.replit.com/agent/bootstrap-agent-dark-theme.min.css">
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+</head>
+<body>
+    <div class="container py-5">
+        <header class="text-center mb-5">
+            <h1 class="display-4">AI-Powered Movie Review Sentiment Analyzer</h1>
+            <p class="lead">Advanced sentiment analysis that accurately evaluates the emotion in your movie reviews</p>
+            <div class="text-info mb-3"><i class="fas fa-robot me-2"></i>Powered by GPT-4o</div>
+        </header>
+        
+        <main>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="card shadow-sm mb-4">
+                        <div class="card-body">
+                            <form id="review-form">
+                                <div class="mb-3">
+                                    <label for="review-text" class="form-label">Enter your movie review:</label>
+                                    <textarea class="form-control" id="review-text" rows="5" placeholder="Type or paste your movie review here..."></textarea>
+                                    <div class="invalid-feedback" id="error-message"></div>
+                                </div>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary" id="analyze-btn">
+                                        <i class="fas fa-search me-2"></i>Analyze Sentiment
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <div class="card shadow-sm d-none" id="results-container">
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-4">Analysis Results</h3>
+                            
+                            <div class="mb-4 text-center">
+                                <div class="sentiment-badge" id="sentiment-badge">
+                                    <i class="sentiment-icon fas"></i>
+                                    <span id="sentiment-label"></span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Confidence Score:</label>
+                                <div class="progress" role="progressbar">
+                                    <div id="confidence-bar" class="progress-bar" style="width: 0%">0%</div>
+                                </div>
+                                <small class="text-muted d-block mt-1">Higher score indicates stronger sentiment intensity</small>
+                            </div>
+                            
+                            <div class="mt-4 mb-3">
+                                <div class="card bg-secondary bg-opacity-10">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">Analysis Explanation</h5>
+                                        <p class="mb-0" id="analysis-text">Waiting for analysis...</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid mt-2">
+                                <button class="btn btn-outline-secondary" id="analyze-another-btn">
+                                    <i class="fas fa-redo me-2"></i>Analyze Another Review
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="text-center mt-5">
+            <p class="text-muted small">Powered by AI Language Models | &copy; 2025 Sentiment Analyzer</p>
+        </footer>
+    </div>
+    
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

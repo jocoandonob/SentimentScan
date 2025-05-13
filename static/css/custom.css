@@ -1,0 +1,70 @@
+/* Sentiment badge styles */
+.sentiment-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+}
+
+.sentiment-badge .sentiment-icon {
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+
+.sentiment-badge.positive {
+    background-color: rgba(var(--bs-success-rgb), 0.15);
+    color: var(--bs-success);
+}
+
+.sentiment-badge.negative {
+    background-color: rgba(var(--bs-danger-rgb), 0.15);
+    color: var(--bs-danger);
+}
+
+.sentiment-badge.neutral {
+    background-color: rgba(var(--bs-warning-rgb), 0.15);
+    color: var(--bs-warning);
+}
+
+/* Animation for loading state */
+.spinner-border {
+    animation-duration: 0.75s;
+}
+
+/* Progress bar styling */
+.progress {
+    height: 1.5rem;
+    border-radius: 0.5rem;
+}
+
+.progress-bar {
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: width 0.6s ease;
+}
+
+/* Card styling */
+.card {
+    border-radius: 0.75rem;
+    overflow: hidden;
+}
+
+/* Focus styles for textarea */
+.form-control:focus {
+    box-shadow: 0 0 0 0.25rem rgba(var(--bs-primary-rgb), 0.25);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sentiment-badge {
+        font-size: 1rem;
+        padding: 8px 16px;
+    }
+    
+    .sentiment-badge .sentiment-icon {
+        font-size: 1.25rem;
+    }
+}
