@@ -1,15 +1,21 @@
 import os
+from dotenv import load_dotenv
 import json
 import logging
 from openai import OpenAI
 from textblob import TextBlob
+
+# Load environment variables
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 # Initialize OpenAI client
-openai_api_key = os.environ.get("OPENAI_API_KEY")
+openai_api_key = os.getenv("OPENAI_API_KEY")
+if not openai_api_key:
+    logger.warning("OPENAI_API_KEY not found in environment variables")
 client = OpenAI(api_key=openai_api_key)
 
 def analyze_sentiment_with_openai(text):

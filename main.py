@@ -1,9 +1,14 @@
 import os
+from dotenv import load_dotenv
 import logging
 from flask import Flask, render_template, request, jsonify
 from ai_sentiment_analyzer import analyze_sentiment
 from models import db, UserUsage
 from utils import generate_device_fingerprint, get_client_ip, check_usage_limit
+import atexit
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG)
@@ -11,10 +16,10 @@ logger = logging.getLogger(__name__)
 
 # Create Flask app
 app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "default-secret-key")
 
-# Configure the PostgreSQL database
-app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
+# Load configuration from environment variables
+app.secret_key = os.getenv("SECRET_KEY", "default-secret-key")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///app.db")
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
@@ -25,12 +30,19 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 db.init_app(app)
 
 # Usage limit configuration
-MAX_USAGE = 7
+MAX_USAGE = int(os.getenv("MAX_USAGE", "7"))
 
 # Create database tables
 with app.app_context():
     db.create_all()
     logger.info("Database tables created")
+
+# Register cleanup function
+def cleanup():
+    logger.info("Cleaning up resources...")
+    # Add any cleanup code here if needed
+
+atexit.register(cleanup)
 
 @app.route("/")
 def index():
