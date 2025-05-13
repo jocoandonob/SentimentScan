@@ -34,9 +34,18 @@
                                     <div class="invalid-feedback" id="error-message"></div>
                                 </div>
                                 <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary" id="analyze-btn">
+                                    <button type="submit" class="btn btn-primary" id="analyze-btn" {% if not usage_allowed %}disabled{% endif %}>
                                         <i class="fas fa-search me-2"></i>Analyze Sentiment
                                     </button>
+                                </div>
+                                <div class="usage-info mt-2 text-center">
+                                    <small class="text-{% if usage_remaining > 2 %}info{% elif usage_remaining > 0 %}warning{% else %}danger{% endif %}">
+                                        {% if usage_remaining > 0 %}
+                                        <i class="fas fa-info-circle me-1"></i>You have <strong>{{ usage_remaining }}</strong> analysis attempts remaining
+                                        {% else %}
+                                        <i class="fas fa-exclamation-circle me-1"></i>You have reached the maximum limit of {{ usage_total }} analyses
+                                        {% endif %}
+                                    </small>
                                 </div>
                             </form>
                         </div>

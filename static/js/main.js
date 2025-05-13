@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const reviewText = document.getElementById('review-text');
     const analyzeBtn = document.getElementById('analyze-btn');
     const errorMessage = document.getElementById('error-message');
+    
+    // Usage info element - will be created if it doesn't exist yet
+    let usageInfoElement = document.querySelector('.usage-info');
 
     // Results elements
     const resultsContainer = document.getElementById('results-container');
@@ -54,6 +57,11 @@ document.addEventListener('DOMContentLoaded', function() {
             return response.json();
         })
         .then(data => {
+            // Update usage information if available
+            if (data.usage_status) {
+                updateUsageInfo(data.usage_status);
+            }
+            
             // Update the results UI
             displayResults(data);
         })
@@ -61,6 +69,11 @@ document.addEventListener('DOMContentLoaded', function() {
             // Show error message
             reviewText.classList.add('is-invalid');
             errorMessage.textContent = error.message;
+            
+            // Try to get usage information from error response
+            if (error.usage_status) {
+                updateUsageInfo(error.usage_status);
+            }
         })
         .finally(() => {
             // Reset button state
@@ -128,4 +141,63 @@ document.addEventListener('DOMContentLoaded', function() {
         // Focus on the textarea
         reviewText.focus();
     });
+    
+    // Function to update usage information
+    function updateUsageInfo(usageStatus) {
+        // Make sure we have the usage info container
+        if (!usageInfoElement) {
+            usageInfoElement = document.querySelector('.usage-info');
+            // If it still doesn't exist, we need to create it
+            if (!usageInfoElement) {
+                const container = document.createElement('div');
+                container.className = 'usage-info mt-2 text-center';
+                
+                // Insert after the button
+                const buttonContainer = analyzeBtn.parentElement;
+                buttonContainer.parentNode.insertBefore(container, buttonContainer.nextSibling);
+                
+                usageInfoElement = container;
+            }
+        }
+        
+        // Determine the status color
+        let statusClass = 'text-info';
+        if (usageStatus.remaining <= 0) {
+            statusClass = 'text-danger';
+        } else if (usageStatus.remaining <= 2) {
+            statusClass = 'text-warning';
+        }
+        
+        // Create the message
+        let message = '';
+        let icon = '';
+        
+        if (usageStatus.remaining > 0) {
+            icon = '<i class="fas fa-info-circle me-1"></i>';
+            message = `You have <strong>${usageStatus.remaining}</strong> analysis ${usageStatus.remaining === 1 ? 'attempt' : 'attempts'} remaining`;
+        } else {
+            icon = '<i class="fas fa-exclamation-circle me-1"></i>';
+            message = `You have reached the maximum limit of ${usageStatus.max} analyses`;
+            
+            // Disable the button if we've reached the limit
+            if (analyzeBtn) {
+                analyzeBtn.disabled = true;
+            }
+        }
+        
+        // Update the content
+        usageInfoElement.innerHTML = `<small class="${statusClass}">${icon}${message}</small>`;
+    }
+    
+    // Check usage status on page load
+    fetch('/usage')
+        .then(response => response.json())
+        .then(data => {
+            if (data && typeof data.remaining !== 'undefined') {
+                updateUsageInfo(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching usage status:', error);
+        });
 });
