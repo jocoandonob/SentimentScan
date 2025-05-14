@@ -2,6 +2,8 @@
 
 SentimentScan is a web-based application that performs AI-powered sentiment analysis on movie reviews. It provides detailed analysis of the emotional tone and sentiment of text input, helping users understand the underlying sentiment in movie reviews.
 
+![SentimentScan Thumbnail](./thumb.png)
+
 ## Features
 
 - Real-time sentiment analysis of movie reviews
@@ -37,6 +39,30 @@ python app.py
 ```
 
 The application will be available at `http://localhost:5000`
+
+## Docker Deployment
+
+You can also run SentimentScan using Docker:
+
+1. Make sure you have Docker and Docker Compose installed
+
+2. Create a `.env` file with your environment variables:
+```bash
+SECRET_KEY=your-secret-key-here
+OPENAI_API_KEY=your-openai-api-key-here
+```
+
+3. Build and start the containers:
+```bash
+docker-compose up --build
+```
+
+4. Access the application at `http://localhost:5000`
+
+To stop the application:
+```bash
+docker-compose down
+```
 
 ## Usage
 
